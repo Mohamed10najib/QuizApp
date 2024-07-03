@@ -1,0 +1,55 @@
+﻿@{
+    IEnumerable<Quiz> quizzes = ViewBag.Quizzes;
+}
+@section CustomStyles{
+<style>
+
+        body {
+            background-color: ghostwhite;
+        }
+
+        .titre{display:flex;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        justify-content:space-around;
+        font-size:25px;
+            color: rgb(116, 40, 188);
+            
+        }
+
+    
+        .btnSubmit{width:120px;
+            background-color: rgb(116, 40, 188) !important;
+        }
+
+            .btnSubmit:hover {
+                background-color: rgb(101, 33, 165) !important;
+            }
+</style>
+
+}
+<div class="container">
+    <div class=" titre"><b>List Of Quizzes</b></div>
+    <div class="row">
+        @foreach (Quiz q in quizzes)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body " >
+                        <h5 class="card-title" style="text-align:center">@q.QuizName</h5>
+                        <p class="card-text" style="text-align:center"><b>Description: </b>@q.Description</p>
+                        <p class="card-text" style="text-align:center"><b>Duration:</b> @q.DurationMinutes minutes</p>
+                        <p class="card-text" style="text-align:center"><b>Number of questions:</b> @q.NbrQuestion</p>
+                        <form asp-action="startQuizByTeacher">
+                            <input hidden type="text" value="@q.QuizId" name="idQuiz" ></input>
+                            <input hidden type="text" value="@Guid.NewGuid().ToString()" name="uniqueIdString"></input>
+                            <div class="d-flex justify-content-around"> <button type="submit" class=" btnSubmit btn btn-primary">Start Quiz</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+           
+            
+        }
+    </div>
+</div>

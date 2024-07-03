@@ -1,0 +1,282 @@
+﻿@model Question
+
+
+@inject IHttpContextAccessor context;
+
+@using Newtonsoft.Json
+@{
+    int countQ = 1;
+    if (@ViewBag.message != null)
+    {
+        countQ = @ViewBag.message + 1;
+    }
+    var q = context.HttpContext.Session.GetString("quiz");
+    Quiz quiz = JsonConvert.DeserializeObject<Quiz>(q);
+}
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+                             * {
+                                 margin: 0%;
+                                 padding: 0%;
+                                 box-sizing: border-box;
+                             }
+
+                             .continer {
+                                 margin-top: 20px;
+                             }
+
+                             .continerchild {
+                                 background-color: rgb(0, 255, 68);
+                                 width: 85%;
+                                 background-color: rgb(46, 8, 82);
+                                 border-radius: 10px;
+                             }
+
+                             .QuestionDiv {
+                                 height: 250px;
+                                 outline: none;
+                                 border: 1px solid rgb(127, 127, 127);
+                                 border-radius: 10px;
+                             }
+
+                                 .QuestionDiv .inputQ:focus {
+                                     border: 1px solid rgb(141, 21, 162);
+                                 }
+
+                             .AnswerDiv {
+                                 height: 250px;
+                             }
+
+                             .continerchildLast {
+                                 width: 90%;
+                                 margin-top: 20px;
+                                 margin-bottom: 20px;
+                             }
+
+                             .form-check {
+                                 display: flex;
+                                 width: 220px;
+                                 justify-content: center;
+                                 height: 200px;
+                                 border-radius: 10px;
+                                 padding: 0;
+                                 align-items: center;
+                             }
+
+                             .inputQ {
+                                 border: none;
+                                 outline: none;
+                                 background-color: inherit;
+                                 text-align: center;
+                                 padding-top: 70px; /* Adjust based on font size */
+                                 padding-bottom: 5px; /* Adjust based on font size */
+                                 resize: none;
+                                 color: white;
+                                 font-weight: bold;
+                             }
+
+                                 .inputQ:focus {
+                                     background-color: rgba(0, 0, 0, 0.2); /* Adjust the opacity as needed */
+                                     border-radius: 10px;
+                                 }
+
+                             .form-check-child {
+                                 height: 90%;
+                                 width: 85%;
+                                 border-radius: 10px;
+                             }
+
+                             .qst::placeholder {
+                                 font-size: 24px;
+                                 font-weight: 500; /* Adjust the font size as needed */
+                             }
+
+                             .headerApp {
+                                 display: flex;
+                                 height: 60px;
+                                 width: 100%;
+                                 align-items: center;
+                                 justify-content: space-between;
+                             }
+
+                             .form-select {
+                                 height: 35px;
+                                 width: 140px;
+                                 background-color: rgb(234, 234, 234);
+                                 border: none;
+                                 outline: none;
+                             }
+
+                             .headerApp div {
+                                 display: flex;
+                                 justify-content: space-around;
+                                 width: 40%;
+                             }
+
+                             .roteur {
+                                 height: 35px;
+                                 width: 60px;
+                                 font-size: 20px;
+                                 background-color: rgb(234, 234, 234);
+                                 outline: none;
+                                 border: none;
+                                 color: black;
+                             }
+
+                                 .roteur:hover {
+                                     background-color: gray;
+                                 }
+
+                                 .roteur span {
+                                     font-size: larger;
+                                 }
+
+                             .headerApp .div1 {
+                                 width: 20%;
+                             }
+
+                             .eng {
+                                 width: 200px;
+                                 height: 35px;
+                                 background-color: rgb(116, 40, 188);
+                                 outline: none;
+                             }
+
+                                 .eng:hover {
+                                     background-color: rgb(101, 33, 165);
+                                 }
+
+                             .choix {
+                                 width: 150px;
+                             }
+
+                             .clock {
+                                 align-items: center;
+                                 position: relative;
+                                 top: 5px;
+                                 left: 5px;
+                                 font-size: 20px;
+                             }
+
+                             .form-check-input:checked {
+                                 background-color: green;
+                                 width: 20px;
+                                 height: 20px;
+                                 outline: none;
+                                 border: none;
+                                 box-shadow: none;
+                                 border-radius: 50%;
+                             }
+
+                             .form-check-input {
+                                 width: 20px;
+                                 height: 20px;
+                                 outline: none;
+                                 border: none;
+                                 box-shadow: none;
+                                 border-radius: 50%;
+                             }
+
+    .SubmitQ {
+        background-color: rgb(116, 40, 188);
+        width:150px;
+    }
+
+    .SubmitQ:hover {
+            background-color: rgb(101, 33, 165);
+       
+    }
+
+    #divBtnSubmit{display:flex;
+    justify-content:space-around;
+    width:100%;
+   
+    margin-top:20px;
+    }
+    </style>
+
+<form method="post" asp-action="Create">
+    <p style="text-align: center; font-weight:bold">Question number: <span id="countSpan">1</span></p>
+<div class="continer d-flex justify-content-around">
+
+    <div class="continerchild continer d-flex justify-content-around">
+     
+        <div class="continerchildLast">
+            <div class="QuestionDiv">
+
+
+                <textarea required asp-for="QuestionText" placeholder="Tapez la question ici." class="w-100 h-100 inputQ d-flex align-items-center qst" id="multiline-input" rows="5"></textarea>
+            </div>
+            <div class="AnswerDiv d-flex justify-content-around align-items-center">
+                <div class="form-check" style="background-color: Gold;">
+                        <input checked class="form-check-input" type="radio" id="flexCheckChecked" name="resp">
+                    <div class="form-check-child">
+                            <textarea required asp-for="suggestion1" placeholder="Tapez l'option de réponse  ici." class="w-100 h-100 inputQ d-flex align-items-center rep" id="multiline-input" rows="5"></textarea>
+                    </div>
+
+                </div>
+                <div class="form-check" style="background-color: LavenderBlush;">
+                        <input class="form-check-input" type="radio" id="flexCheckChecked" name="resp">
+                    <div class="form-check-child">
+                            <textarea required asp-for="suggestion2" placeholder=" Tapez l'option de réponse  ici." class="w-100 h-100 inputQ d-flex align-items-center rep" id="multiline-input" rows="5"></textarea>
+                    </div>
+
+                </div>
+                <div class="form-check" style="background-color: LightSeaGreen;">
+                        <input class="form-check-input" type="radio" id="flexCheckChecked" name="resp">
+                    <div class="form-check-child ">
+                            <textarea required asp-for="suggestion3" placeholder="Tapez l'option de réponse  ici." class="w-100 h-100 inputQ d-flex align-items-center rep " id="multiline-input" rows="5"></textarea>
+                    </div>
+
+                </div>
+                <div class="form-check" style="background-color:PaleTurquoise;">
+                        <input class="form-check-input" type="radio" id="flexCheckChecked" name="resp">
+                    <div class="form-check-child">
+                            <textarea required asp-for="suggestion4" placeholder="Tapez l'option de réponse  ici." class="w-100 h-100 inputQ d-flex align-items-center rep" id="multiline-input" rows="5"></textarea>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+       
+
+    </div>
+       
+
+</div>
+    <input asp-for="Response" value="c" id="Response" hidden />
+    <div id="divBtnSubmit">  <button type="submit" class="btn SubmitQ btn-primary">Submit</button></div>
+
+</form>
+<script>
+    if (localStorage.getItem('CountQuestion') === null)
+    {
+        localStorage.setItem('CountQuestion', 1);
+        document.getElementById("countSpan").TextContent = "1";
+    }
+    else
+    {
+        let count = parseInt(localStorage.getItem('CountQuestion'));
+        count += 1;
+        localStorage.setItem('CountQuestion', count);
+        document.getElementById("countSpan").textContent = count;
+
+
+
+
+    }
+    const radioButtons = document.querySelectorAll('input[type="radio"]');
+
+    radioButtons.forEach(radioButton => {
+        radioButton.addEventListener('change', () => {
+            const textarea = radioButton.parentElement.querySelector('textarea');
+
+            const selectedValue = textarea.value;
+
+            document.getElementById('Response').value = selectedValue;
+        });
+    });
+</script>

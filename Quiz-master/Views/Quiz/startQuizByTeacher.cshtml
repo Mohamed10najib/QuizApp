@@ -1,0 +1,453 @@
+﻿@{
+    string codeQuiz = ViewBag.iCodeQuiz;
+    int idQuiz = ViewBag.idQuiz;
+    var listStudent = ViewBag.ListeStudent;
+   
+}
+@section CustomStyles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scrollbar-width: none; /* Hide scrollbar for Firefox */
+            -ms-overflow-style: none;
+        }
+
+        #copybtn {
+            width: 80px;
+            height: 80px;
+          /* Make border-radius 50% to create a circular button */
+            border: none; /* Remove border */
+            background-color: transparent; /* Example background color */
+            color: #fff; /* Example text color */
+            cursor: pointer; /* Change cursor to pointer on hover */
+        }
+        .header {
+            height: 55px;
+            background-color: rgb(197, 197, 197);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .continerQuiz {
+            background-size: cover; /* Adjusts the size of the background image */
+            background-position: center;
+            display: flex;
+            justify-content: space-around;
+
+        }
+
+        .innerdiv {
+            width: 80%;
+            height: 520px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .innerdiv1 {
+            width: 90%;
+            height: 75%;
+            display: flex;
+        }
+
+        .innerdiv11 {
+            flex: 1;
+            border: 2px solid gray;
+            display: flex;
+            flex-direction: column;
+            background-color: rgb(188, 188, 188,0.5);
+        }
+
+        .innerdiv12 {
+            flex: 1;
+            border: 2px solid gray;
+            display: flex;
+            flex-direction: column;
+            background-color: rgb(188, 188, 188,0.5);
+        }
+
+        .innerdiv121 {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+        }
+
+        .innerdiv122 {
+            flex: 5;
+            display: flex;
+            justify-content: space-around;
+            overflow-y: scroll;
+        }
+
+        .innerdiv111 {
+            display: flex;
+            flex-direction: column;
+            flex: 2;
+        }
+
+        .innerdiv112 {
+            display: flex;
+            justify-content: space-around;
+            flex: 1;
+        }
+
+            .innerdiv112 div {
+                flex: 1;
+                display: flex;
+                justify-content: space-around;
+            }
+
+        .innerdiv111 div {
+            flex: 1;
+        }
+
+        .innerdiv1111 {
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-around;
+            background-color: rgba(255, 255, 255, 0.5);
+            margin-left: 2%;
+            margin-right: 2%;
+            margin-top: 2%;
+            margin-bottom: 2%;
+            border: 2px solid gray;
+        }
+
+        .innerdiv11111,
+        .innerdiv11112,
+        .innerdiv11113,
+        .innerdiv11114 {
+            flex: 1;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        /* Set flex factor of 3 for .innerdiv11113 */
+
+
+        /* Additional styles for innerdiv11111, innerdiv11112, innerdiv11114 */
+        .innerdiv11111 {
+        }
+
+        .innerdiv11112 {
+            font-size: 15px;
+            font-weight: 300;
+            font-family: "Roboto Condensed", sans-serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+        }
+
+        .innerdiv11113 {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+            .innerdiv11113 a {
+                font-weight: bold;
+                width: 100%;
+                color: black;
+                font-family: "Rubik", sans-serif;
+                font-optical-sizing: auto;
+                font-weight: weight;
+                font-style: normal;
+            }
+
+        .innerdiv11114 {
+        }
+
+        .innerdiv11111 p {
+            width: 50px;
+            height: 50px;
+            justify-content: center;
+            display: flex;
+            align-items: center;
+            padding-top: 5px;
+            border-radius: 50px;
+            font-weight: bold;
+        }
+
+        .innerdiv1112 {
+            display: flex;
+            justify-content: space-around;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            margin-left: 2%;
+            margin-right: 2%;
+            margin-top: 2%;
+            margin-bottom: 2%;
+            border: 2px solid gray;
+        }
+
+        #codeQuiz {
+            font-size: 20px;
+        }
+
+        .comm {
+            width: 90%;
+            height: 50px;
+            margin-bottom:10px;
+            background-color: rgb(116, 40, 188) !important;
+        }
+
+            .comm:hover {
+                background-color: rgb(101, 33, 165) !important;
+            }
+        .innerdiv1221 {
+            width: 95%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+        }
+
+        .participant {
+            height: 70px;
+            width: 80%;
+            background-color: rgb(154, 154, 154);
+            border-radius: 5px;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            display: flex;
+            align-items: center;
+         
+            justify-content: space-around;
+        }
+
+            .participant img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50px;
+                margin-left: 20px;
+            }
+
+            .participant p {
+                font-weight: bold;
+                margin-left: 20px;
+                margin-top: 10px;
+           
+            }
+
+        body {
+            background-color: ghostwhite;
+        }
+
+        .btndelete {
+            width: 40px;
+            height: 40px;
+            font-style: italic;
+            background-color: transparent;
+            border: none;
+            color: rgb(147, 9, 9);
+        }
+
+            .btndelete:hover {
+                color: rgb(232, 13, 13);
+            }
+
+        #copybtn{color:black;}
+
+            #copybtn:hover {
+                color: dimgray;
+            }
+    </style>
+}
+
+
+
+
+
+
+<div>
+        <div class="header">
+            @if (ViewBag.myquiz != null)
+            {
+            <div><b>Title: </b>@ViewBag.myquiz.QuizName</div>
+            <div> <b>Duration: </b>@ViewBag.myquiz.DurationMinutes  min</div>
+            <div> <b>Teacher:</b> @(ViewBag.myquiz.user != null ? ViewBag.myquiz.user.Username : "Unknown")</div>
+            <div> <b>Question Number:</b> @ViewBag.myquiz.NbrQuestion</div>
+                <div>
+                    <a href="@Url.Action("Quizzes", "Quiz")" class="btn btn-danger">Quit Quiz</a>
+                </div>
+            }
+            else
+            {
+                <div>Quiz not found</div>
+            }
+        </div>
+
+    <div class="continerQuiz">
+        <div class="innerdiv">
+
+            <div class="innerdiv1">
+
+                <div class="innerdiv11">
+
+                    <div class="innerdiv111">
+                        <div class="innerdiv1111">
+                            <div class="innerdiv11111"><p>1</p></div>
+                            <div class="innerdiv11112">
+                                <p>
+                                    Join us
+                                    using any device.
+                                </p>
+                            </div>
+                                <div class="innerdiv11113"><a href="http://localhost:5259/Quiz/RejoindreQuiz"><p>Page to join the quiz.</p></a></div>
+                                <div class="innerdiv11114"><button id="copybtn" type="button" onclick="copyFunctionLien()" title="Copy"> <i style="font-size:24px" class="fa">&#xf0c5;</i></button></div>
+                        </div>
+                        <div class="innerdiv1112">
+
+
+                            <div class="innerdiv11111"><p>2</p></div>
+                            <div class="innerdiv11112">
+                                <p>
+                                    Enter
+                                    the code to join
+                                </p>
+                            </div>
+                                <div class="innerdiv11113">
+                                    <p id="codeQuiz">@codeQuiz</p><button id="copybtn" type="button" onclick="copyFunction()" title="Copy"> <i style="font-size:24px" class="fa">&#xf0c5;</i></button>
+                                </div>
+                           
+                        </div>
+
+                    </div>
+                    <form asp-action="QuizIsStarted" id="form1">
+                    <input hidden name="QuizCode" value="@codeQuiz" />
+                    <div class="innerdiv112">
+                        <div>
+                          
+                              
+                                <button type="submit" class="btn comm btn-primary">Let's start the Quiz</button>
+
+                          
+                        </div>
+                    </div>
+                    </form>
+                </div>
+                <div class="innerdiv12">
+                    <div class="innerdiv121"><p><b>The participants</b></p></div>
+                    <div class="innerdiv122">
+                        <div class="innerdiv1221">
+                            @if (listStudent != null)
+                            {
+                                @foreach (var student in listStudent)
+                                {
+                                    <div class="participant">
+                                        <img src="~/0ce956b2-9787-4756-a580-299568810730.png">
+                                        <p>@student.Username</p>
+                                        <div>
+                                            <form asp-action="DeleteParticipant" method="post">
+                                                <button class="btndelete" type="submit">X</button>
+                                                <input hidden name="UserId" value="@student.UserId" />
+                                                <input hidden name="codeQuiz" value="@codeQuiz" />
+                                                <input hidden name="IdQuiz" value="@idQuiz" />
+                                                <input hidden name="TeacherQuizStartedId" value="@ViewBag.idTeacher" />
+                                            </form>
+                                        </div>
+                                           
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p>No one</p>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/QuizHub") // Specify the URL of your SignalR hub
+        .build();
+
+    // Start the SignalR connection
+    connection.start()
+        .then(function () {
+            console.log("SignalR connected.");
+        })
+        .catch(function (err) {
+            return console.error(err.toString());
+        });
+    // Define copyFunction
+    function copyFunction() {
+        // Get the text content of the element with id "codeQuiz"
+        var codeQuizText = document.getElementById("codeQuiz").innerText;
+
+        // Use navigator.clipboard.writeText to copy the text to the clipboard
+        navigator.clipboard.writeText(codeQuizText)
+            .then(() => {
+                // Notify the user that the text has been copied
+            })
+            .catch((error) => {
+                // Handle any errors that may occur during copying
+                console.error('Failed to copy text: ', error);
+            });
+    }
+
+    // Define copyFunctionLien
+    function copyFunctionLien() {
+        var codeQuizText = "http://localhost:5259/Quiz/RejoindreQuiz";
+        navigator.clipboard.writeText(codeQuizText)
+            .then(() => {
+                // Notify the user that the text has been copied
+            })
+            .catch((error) => {
+                // Handle any errors that may occur during copying
+                console.error('Failed to copy text: ', error);
+            });
+    }
+
+
+    // Define myCodeQuiz variable (assuming you already have it)
+    const myCodeQuiz = "@codeQuiz";
+
+    document.getElementById("form1").addEventListener("submit", function (event) {
+        // Prevent the default form submission behavior
+        event.preventDefault();
+
+        // Invoke the SignalR method when the form is submitted
+        connection.invoke("TechearStartedQuiz", myCodeQuiz)
+            .then(function () {
+                console.log("TechearStartedQuiz invoked successfully.");
+                // Optionally, submit the form after invoking the SignalR method
+                document.getElementById("form1").submit();
+            })
+            .catch(function (err) {
+                console.error('Failed to invoke TechearStartedQuiz: ', err.toString());
+            });
+
+    });
+
+    connection.on("StudentJoined", function (CodeQuiz) {
+        if (myCodeQuiz == CodeQuiz) {
+            location.reload();
+        } else {
+            console.log("Student joined the quiz: " + CodeQuiz + "and" + myCodeQuiz);
+
+        }
+        // Display notification to the teacher
+    });
+    
+   
+    
+
+</script>

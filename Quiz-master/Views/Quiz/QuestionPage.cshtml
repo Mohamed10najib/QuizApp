@@ -1,0 +1,472 @@
+﻿@{
+    int q = ViewBag.idQ;
+    Quiz quiz = ViewBag.quiz;
+    List<Question> questionList = quiz.Questions.ToList();
+    var startedQuizStudentNewId = ViewBag.startedQuizStudentNewId;
+    string codeQuiz = ViewBag.codeQuiz;
+}
+@section CustomStyles{
+    <style>
+        * {
+            margin: 0%;
+            padding: 0%;
+            box-sizing: border-box;
+        }
+
+        #carouselExampleControls {
+            background-color: white ;
+        }
+
+        .continer {
+            margin-top: 20px;
+        }
+
+        .continerchild {
+            background-color: rgb(0, 255, 68);
+            width: 85%;
+            background-color: rgb(46, 8, 82);
+            border-radius: 10px;
+        }
+
+        .QuestionDiv {
+            height: 250px;
+            outline: none;
+            border: 1px solid rgb(127, 127, 127);
+            border-radius: 10px;
+        }
+
+            .QuestionDiv .inputQ:focus {
+                border: 1px solid rgb(141, 21, 162);
+            }
+
+        .AnswerDiv {
+            height: 250px;
+        }
+
+        .continerchildLast {
+            width: 90%;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-check {
+            display: flex;
+            width: 220px;
+            justify-content: center;
+            height: 200px;
+            border-radius: 10px;
+            padding: 0;
+            align-items: center;
+        }
+
+        .inputQ {
+            border: none;
+            outline: none;
+            background-color: inherit;
+            text-align: center;
+            padding-top: 70px; /* Adjust based on font size */
+            padding-bottom: 5px; /* Adjust based on font size */
+            resize: none;
+            color: white;
+            font-weight: bold;
+        }
+
+            .inputQ:focus {
+                background-color: rgba(0, 0, 0, 0.2); /* Adjust the opacity as needed */
+                border-radius: 10px;
+            }
+
+        .form-check-child {
+            height: 100%;
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .qst::placeholder {
+            font-size: 24px;
+            font-weight: 500; /* Adjust the font size as needed */
+        }
+
+        .headerApp {
+            display: flex;
+            height: 60px;
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .form-select {
+            height: 35px;
+            width: 140px;
+            background-color: rgb(234, 234, 234);
+            border: none;
+            outline: none;
+        }
+
+        .divMark, .divTime {
+            height: 35px;
+            width: 140px;
+            background-color: rgb(234, 234, 234);
+            border: 1px rgb(195, 195, 195) solid;
+            align-items: center;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .headerApp div {
+            display: flex;
+            justify-content: space-around;
+            width: 40%;
+        }
+
+        .roteur {
+            height: 35px;
+            width: 60px;
+            font-size: 20px;
+            background-color: rgb(234, 234, 234);
+            outline: none;
+            border: none;
+            color: black;
+        }
+
+            .roteur:hover {
+                background-color: gray;
+            }
+
+            .roteur span {
+                font-size: larger;
+            }
+
+        .headerApp .div1 {
+            width: 20%;
+        }
+
+        .eng {
+            width: 200px;
+            height: 35px;
+            background-color: rgb(116, 40, 188);
+            outline: none;
+        }
+
+            .eng:hover {
+                background-color: rgb(101, 33, 165);
+            }
+
+        .choix {
+            width: 150px;
+        }
+
+        .clock {
+            align-items: center;
+            position: relative;
+            top: 5px;
+            left: 5px;
+            font-size: 20px;
+        }
+
+        .form-check-input:checked {
+            background-color: green;
+            width: 20px;
+            height: 20px;
+            outline: none;
+            border: none;
+            box-shadow: none;
+            border-radius: 50%;
+        }
+
+
+        .form-check-input {
+            width: 20px;
+            height: 20px;
+            outline: none;
+            border: none;
+            box-shadow: none;
+            border-radius: 50%;
+        }
+
+        .divNextAndPre {
+            width: 100%;
+            display: flex;
+            height: 100px;
+            justify-content: space-between;
+        }
+
+            .divNextAndPre div button {
+                width: 200px;
+                height: 50px;
+                border-radius: 5px;
+                outline: none;
+                border: 1px solid rgb(26, 26, 26);
+                opacity: 0.5;
+                font-weight: bold;
+                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+                background-color: rgb(26, 24, 24);
+                color: aliceblue;
+            }
+
+                .divNextAndPre div button:hover {
+                    background-color: rgb(72, 72, 72);
+                    opacity: 1;
+                }
+    </style>
+}
+
+
+
+
+
+
+
+<div class="headerApp">
+    <div><b>Quiz Name :</b>@quiz.QuizName</div>
+    <div><b>Duration :</b> @quiz.DurationMinutes  minutes</div>
+    <div><b>Rest Time  : </b><div id="timer"></div></div>
+    <div> <b>Number Of  Questions :</b> @quiz.NbrQuestion </div>
+  
+    <div> <button onclick="submitForm()" class="btn btn-danger">Exit Quiz</button></div>
+</div>
+<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+    <form asp-action="SendResponses" method="post" id="FormId">
+    @for (var i=0; i < quiz.NbrQuestion; i++)
+    {
+        <div class="carousel-inner " id="Q@(i)">
+       
+            <div class="carousel-item active">
+                <div class="continer d-flex justify-content-around">
+                    <div class="continerchild continer d-flex justify-content-around">
+                        <div class="continerchildLast">
+                            <div class="QuestionDiv">
+                                <p class="w-100 h-100 inputQ  qst">@questionList[i].QuestionText</p>
+                            </div>
+
+                            <div class="AnswerDiv d-flex justify-content-around align-items-center">
+                                <div class="form-check" style="background-color: Gold;">
+                                        <input name="Responses[@(i)][99]" onchange="selectAnswer(this)" class="form-check-input" type="checkbox" value="@questionList[i].suggestion1" id="flexCheckChecked1@(i)" style="display: none;">
+                                    <div class="form-check-child">
+                                        <label for="flexCheckChecked1@(i)" class="w-100 h-100 inputQ  rep"> @questionList[i].suggestion1  </label>
+                                    </div>
+                                </div>
+                                <div class="form-check" style="background-color: LavenderBlush;">
+                                        <input name="Responses[@(i)][99]" onchange="selectAnswer(this)" class="form-check-input" type="checkbox" value="@questionList[i].suggestion2" id="flexCheckChecked2@(i)" style="display: none;">
+                                    <div class="form-check-child">
+                                        <label for="flexCheckChecked2@(i)" class="w-100 h-100 inputQ  rep">   @questionList[i].suggestion2</label>
+                                    </div>
+                                </div>
+                                <div class="form-check" style="background-color: LightSeaGreen;">
+                                        <input name="Responses[@(i)][99]" onchange="selectAnswer(this)" class="form-check-input" type="checkbox" value="@questionList[i].suggestion3" id="flexCheckChecked3@(i)" style="display: none;">
+                                    <div class="form-check-child ">
+                                        <label for="flexCheckChecked3@(i)" class="w-100 h-100 inputQ  rep"> @questionList[i].suggestion3 </label>
+                                    </div>
+                                </div>
+                                <div class="form-check" style="background-color:PaleTurquoise;">
+                                        <input selected name="Responses[@(i)][99]" onchange="selectAnswer(this)" class="form-check-input" type="checkbox" value="@questionList[i].suggestion4" id="flexCheckChecked4@(i)" style="display: none;">
+                                    <div class="form-check-child">
+                                        <label for="flexCheckChecked4@(i)" class="w-100 h-100 inputQ  rep">  @questionList[i].suggestion4 </label>
+                                    </div>
+                                </div>
+                                    <div class="form-check" style="background-color:PaleTurquoise; display:none">
+                                        <input checked name="Responses[@(i)][0]" onchange="selectAnswer(this)" class="form-check-input" type="checkbox" value="Undifiend" id="flexCheckChecked44" style="display: none;">
+                                        <div class="form-check-child">
+                                            <label for="flexCheckChecked44" class="w-100 h-100 inputQ  rep">  </label>
+                                        </div>
+                                    </div>
+                            </div>
+                                <input hidden value="@startedQuizStudentNewId" name="StudentQuizId" />
+                                <input hidden value="@q" name="QuizId" />
+                                <input hidden value="@codeQuiz" name="CodeQuiz" />
+                            <div class="divNextAndPre">
+                                <div><button onclick="Back()" type="button">Back</button></div>
+
+                                    <div id="divbtn@(i)"><button onclick="Next()" type="button">Next</button><button id="submitButton(@i)" style="display:none" type="submit">Submit</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+    </div>
+    }
+    </form>
+</div>
+
+
+
+<script>
+ 
+    const codeQuiz = "@codeQuiz";
+    
+    function submitForm() {
+            var form = document.getElementById("FormId");
+            form.submit();
+    }
+    function startTimer(durationInSeconds) {
+        var startTime;
+
+        // Check if start time is stored in local storage
+        var storedStartTime = localStorage.getItem('startTime');
+        if (storedStartTime) {
+            startTime = parseInt(storedStartTime, 10);
+        } else {
+            // If no start time is stored, set the current time as the start time
+            startTime = new Date().getTime() + durationInSeconds * 1000;
+            // Store the start time in local storage
+            localStorage.setItem('startTime', startTime.toString());
+        }
+
+        // Update the timer every second (1000 milliseconds)
+        var timerInterval = setInterval(function () {
+            // Get the current time
+            var currentTime = new Date().getTime();
+
+            // Calculate the remaining time
+            var remainingTime = startTime - currentTime;
+
+            // If remaining time is less than or equal to 0, stop the timer
+            if (remainingTime <= 0) {
+                submitForm();
+                clearInterval(timerInterval);
+                document.getElementById("timer").innerText = "Time's up!";
+
+                // Clear the stored start time from local storage
+                localStorage.removeItem('startTime');
+
+                return;
+            }
+
+            // Convert remaining milliseconds to minutes and seconds
+            var minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+            // Display the remaining time in the format "mm:ss"
+            var timerDisplay = padZero(minutes) + ":" + padZero(seconds);
+
+            // Update the timer display
+            document.getElementById("timer").innerText = timerDisplay;
+        }, 1000); // Update every second
+
+        // Function to add leading zero if needed
+        function padZero(num) {
+            return (num < 10 ? "0" : "") + num;
+        }
+    }
+
+    // Call the startTimer function with the duration in seconds
+    startTimer(@quiz.DurationMinutes*60);
+    function extractIndices(input) {
+       
+        var regex = /Responses\[(\d+)\]\[(\d+)\]/;
+
+       
+        var match = input.match(regex);
+
+        if (match !== null) {
+          
+            var i = parseInt(match[1]);
+            var j = parseInt(match[2]);
+
+           
+            return { i: i, j: j };
+        } else {
+           
+            return null;
+        }
+    }
+
+
+    
+    function selectAnswer(childElement) {
+        var parent = childElement.parentNode;
+        var name = childElement.name;
+        var valueI = extractIndices(name).i;
+        if (childElement.checked) {
+            childElement.name = "Responses[" +valueI+"][33]";
+            var m = 1; 
+            for (var l = 0; l < 4; l++) {
+                var t = l + 1;
+                let inputcheck = document.getElementById(`flexCheckChecked${t}${valueI}`);
+                var value = extractIndices(inputcheck.name);
+                var valueJ = value.j;
+                if (valueJ != 99) {
+                    inputcheck.name = "Responses[" + valueI + "][" + m + "]";
+                    m++;
+                }
+            }
+            parent.style.border = "2px green solid";
+            childElement.style.display = "block";
+            childElement.style.marginRight = "10px";
+        } else {
+            childElement.name = "Responses[" + valueI + "][99]";
+            var m = 1; // Declare m outside the loop
+            for (var l = 0; l < 4; l++) {
+                var t = l + 1;
+                let inputcheck = document.getElementById(`flexCheckChecked${t}${valueI}`);
+                var value = extractIndices(inputcheck.name);
+                var valueJ = value.j;
+                if (valueJ != 99) {
+                    inputcheck.name = "Responses[" + valueI + "][" + m + "]";
+                    m++;
+                }
+            }
+            childElement.style.display = "none";
+            parent.style.border = "none";
+            parent.style.opacity = "1";
+        }
+    }
+
+    var count = 0;
+    var totalQuestions = @quiz.NbrQuestion;
+
+    for (var l = 0; l < totalQuestions; l++) {
+        var divQ = document.getElementById("Q" + l);
+        divQ.style.display = (l === count) ? "block" : "none";
+    }
+
+    function Next() {
+        if (count < totalQuestions - 1) {
+            count++;
+            for (var l = 0; l < totalQuestions; l++) {
+                var divQ = document.getElementById("Q" + l);
+                divQ.style.display = (l === count) ? "block" : "none";
+            }
+            if (count == totalQuestions - 1) {
+                var divbtn = document.getElementById("divbtn" + (totalQuestions - 1));
+                var listbtn = divbtn.getElementsByTagName("button");
+                listbtn[0].style.display = "none";
+                listbtn[1].style.display = "block";
+            }
+        }
+    }
+  
+    function Back() {
+        if (count == totalQuestions - 1) {
+            var divbtn = document.getElementById("divbtn" + (totalQuestions - 1));
+            var listbtn = divbtn.getElementsByTagName("button");
+            listbtn[1].style.display = "none";
+            listbtn[0].style.display = "block";
+        }
+        if (count > 0) {
+            count--;
+            for (var l = 0; l < totalQuestions; l++) {
+                var divQ = document.getElementById("Q" + l);
+                divQ.style.display = (l === count) ? "block" : "none";
+            }
+
+           
+        }
+    }
+                var textarea = document.getElementById('multiline-input');
+
+
+                textarea.addEventListener('input', function () {
+
+                    var text = this.value.replace(/\n/g, '<br>');
+                    // Update the textarea's content
+                    this.innerHTML = text;
+                });
+            </script>
+
+            <!-- jQuery -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+            <!-- Bootstrap JS -->
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
